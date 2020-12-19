@@ -15,13 +15,10 @@ fatal <- cleandata %>%
 
 p1f <- ggplot(fatal,aes(x=totfatal, y=reorder(EVTYPE, totfatal)))
 p1f <- p1f + geom_col(fill ='red')
-p1f <- p1f + labs(title= paste('Fatalities by Event Type (Top',top,
-                               '=', sum(fatal$pct),'%)'), y=NULL, x= 'Count')
+p1f <- p1f + labs(title= paste('Fatal (Top',top, '=', sum(fatal$pct),'%)'),
+                  y=NULL, x= 'Count')
 fatal$totfatal <- format(fatal$totfatal, big.mark=",",core.just= "right")
 tb1 <- tableGrob(fatal, theme= mytheme, rows = NULL, cols= c("Event Type","Fatalities","%"))
-
-grid.arrange(p1f, tb1, nrow= 2, as.table = T, heights = c(3,2))
-
 
 ## Injured
 injured <- cleandata %>%
@@ -34,13 +31,13 @@ injured <- cleandata %>%
 
 p2i <- ggplot(injured, aes(y=reorder(EVTYPE, totinjured), x=totinjured))
 p2i <- p2i + geom_col(fill ='orange')
-p2i <- p2i + labs(title= paste('Injured by Event Type (Top',top,
-                               '=', sum(injured$pct),'%)'), y=NULL, x= 'Count')
+p2i <- p2i + labs(title = paste('Injured (Top',top, '=', sum(fatal$pct),'%)'),
+                  y=NULL, x= 'Count')
 injured$totinjured <- format(injured$totinjured, big.mark=",",core.just= "right")
 tb2 <- tableGrob(injured, theme= mytheme, rows = NULL, cols= c("Event Type","Injured","%"))
-grid.arrange(p2i, tb2, nrow= 2, as.table = T, heights = c(3,2))
 
-## Property Damage
+grid.arrange(p1f, p2i, tb1, tb2, heights= unit(c(120,80), c("mm", "mm")), widths= unit(c(120,120), c("mm", "mm")))
+
 PDmg <- cleandata %>%
   group_by(EVTYPE) %>%
   summarise(totPDmg = round(sum(PropDmg)/1e9,3)) %>%
@@ -51,11 +48,10 @@ PDmg <- cleandata %>%
 
 p3p <- ggplot(PDmg, aes(y=reorder(EVTYPE, totPDmg), x= totPDmg))
 p3p <- p3p + geom_col(fill ='Purple')
-p3p <- p3p + labs(title= paste('Property Damage Value by Event Type (Top',top,
-                               '=', sum(PDmg$pct),'%)'), y= NULL, x= 'Value ($B)')
+p3p <- p3p + labs(title= paste('Property Damage (Top', top, '=', sum(PDmg$pct),'%)'),
+                  y= NULL, x= 'Value ($B)')
 PDmg$totPDmg <- format(PDmg$totPDmg, big.mark=",",core.just= "right")
 tb3 <- tableGrob(PDmg, theme= mytheme, rows = NULL, cols= c("Event Type","Value ($B)","%"))
-grid.arrange(p3p, tb3, nrow= 2, as.table = T, heights = c(3,2))
 
 ## Crop Damage
 CDmg <- cleandata %>%
@@ -68,8 +64,9 @@ CDmg <- cleandata %>%
 
 p4c <- ggplot(CDmg,aes(y=reorder(EVTYPE, totCDmg), x=totCDmg))
 p4c <- p4c + geom_col(fill ='Steel Blue')
-p4c <- p4c + labs(title= paste('Crop Damage Value by Event Type (Top',top,
-                               '=', sum(CDmg$pct),'%)'), y= NULL, x= 'Value ($B)')
+p4c <- p4c + labs(title= paste('Crop Damage (Top',top, '=', sum(CDmg$pct),'%)'),
+                  y= NULL, x= 'Value ($B)')
 CDmg$totCDmg <- format(CDmg$totCDmg, big.mark=",",core.just= "right")
 tb4 <- tableGrob(CDmg, theme= mytheme, rows = NULL, cols= c("Event Type","Value ($B)","%"))
-grid.arrange(p4c, tb4, nrow= 2, as.table = T, heights = c(3,2))
+
+grid.arrange(p3p,p4c, tb3, tb4, heights= unit(c(120,80), c("mm", "mm")), widths= unit(c(120,120), c("mm", "mm")))

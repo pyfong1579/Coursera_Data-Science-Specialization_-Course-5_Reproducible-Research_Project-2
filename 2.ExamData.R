@@ -1,6 +1,16 @@
 #check for missing values
 mean(is.na(data))
 
+# Check unique variables in EVTYPE
+length(unique(data$EVTYPE))
+
+# Cleaning EVTYPE
+data$EVTYPE <- toupper(data$EVTYPE)
+data$EVTYPE <- trimws(data$EVTYPE)
+searchString <- '  '
+replacementString <- ' '
+data$EVTYPE = sub(searchString,replacementString,data$EVTYPE)
+
 # Checking prop dmg. exp
 rd <- 4
 PDE <- data %>%
@@ -14,7 +24,7 @@ CDE <- data %>%
   mutate (CDE_pct = round(100*CDEcount/sum(CDEcount),rd))
 #t2 <- tableGrob(CDE, rows = NULL, cols = c("Crop.Dmg.Exp.","Count","%"))
 
-# Printing tables of unique values
+# Printing tables of unique exp values
 kable(list(PDE,CDE), format='pipe', format.args= list(big.mark = ","),
       caption = "Unique values in Property & Crop Damage EXP")#,
 #      col.names = list(c("Prop.Dmg.Exp.","Count","%"),c("Prop.Dmg.Exp.","Count","%")))

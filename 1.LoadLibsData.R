@@ -5,6 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(gtable)
 
 # Download source files from URL into and create download sub-directory on 1st run only.
 url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
