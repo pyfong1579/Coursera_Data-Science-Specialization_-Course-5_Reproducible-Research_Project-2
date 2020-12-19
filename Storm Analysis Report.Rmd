@@ -240,7 +240,9 @@ p2i <- p2i + labs(title = paste('Injured (Top',top, '=', sum(fatal$pct),'%)'),
 injured$totinjured <- format(injured$totinjured, big.mark=",",core.just= "right")
 tb2 <- tableGrob(injured, theme= mytheme, rows = NULL, cols= c("Event Type","Injured","%"))
 
-grid.arrange(p1f, p2i, tb1, tb2, heights= unit(c(120,80), c("mm", "mm")), widths= unit(c(120,120), c("mm", "mm")))
+grid.arrange(p1f, p2i, tb1, tb2, heights= unit(c(120,80), c("mm", "mm")),
+             widths= unit(c(120,120), c("mm", "mm")),
+             top= "Weather Events Harmful to Population Health")
 ```
 
 ### Top 5 Weather Events Causing Damage.  
@@ -277,5 +279,7 @@ p4c <- p4c + labs(title= paste('Crop Damage (Top',top, '=', sum(CDmg$pct),'%)'),
 CDmg$totCDmg <- format(CDmg$totCDmg, big.mark=",",core.just= "right")
 tb4 <- tableGrob(CDmg, theme= mytheme, rows = NULL, cols= c("Event Type","Value ($B)","%"))
 
-grid.arrange(p3p,p4c, tb3, tb4, heights= unit(c(120,80), c("mm", "mm")), widths= unit(c(120,120), c("mm", "mm")))
+grid.arrange(p3p,p4c, tb3, tb4, heights= unit(c(120,80), c("mm", "mm")),
+             widths= unit(c(120,120), c("mm", "mm")),
+             top= "Weather Events with Damaging Economic Consequences")
 ```
